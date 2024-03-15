@@ -33,6 +33,8 @@ async function run() {
     const database = client.db("cafeRioDb");
     const menuCollection = database.collection("menu");
     const reviewsCollection = client.db("cafeRioDb").collection("reviews");
+     const cartsCollection = database.collection("carts");
+    const usersCollection = database.collection("users");
 
     
     app.get("/menu", async (req, res) => {
@@ -44,6 +46,17 @@ async function run() {
         const result = await reviewsCollection.find().toArray();
         res.send(result);
       });
+
+        // cart collection
+
+    app.post("/carts", async (req, res) => {
+      const item = req.body;
+      //  console.log(item);
+      const result = await cartsCollection.insertOne(item);
+      res.send(result);
+    });
+
+
 
     await client.db("admin").command({ ping: 1 });
     console.log(
