@@ -8,7 +8,7 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 //   "mongodb+srv://<username>:<password>@cluster0.w8gsdns.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
@@ -47,6 +47,16 @@ async function run() {
         res.send(result);
       });
 
+      // get cart item from database
+       app.get('/carts', async(req,res)=>{
+
+         const email=req.query.email;
+         const query={email:email}
+
+          const result= await cartsCollection.find(query).toArray();
+          res.send(result)
+       } )
+
         // cart collection
 
     app.post("/carts", async (req, res) => {
@@ -55,6 +65,15 @@ async function run() {
       const result = await cartsCollection.insertOne(item);
       res.send(result);
     });
+
+     // cart item delete
+
+     app.delete('/carts/:id', async(req,res)=>{
+          const id= req.params.id;
+          const query= {_id: new ObjectId(id)}
+          const result= await cartsCollection.deleteOne(query)
+          res.send(result);
+     } )
 
 
 
