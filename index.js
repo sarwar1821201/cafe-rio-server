@@ -60,8 +60,8 @@ async function run() {
       // make user as a admin
 
     app.patch("/users/admin/:id", async (req, res) => {
-      const id = req.params.id;
-      console.log(id);
+    const id = req.params.id;
+     // console.log(id);
       const filter = { _id: new ObjectId(id) };
       const updateDoc = {
         $set: {
