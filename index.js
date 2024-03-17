@@ -57,6 +57,31 @@ async function run() {
    }  )
 
 
+      // make user as a admin
+
+    app.patch("/users/admin/:id", async (req, res) => {
+      const id = req.params.id;
+      console.log(id);
+      const filter = { _id: new ObjectId(id) };
+      const updateDoc = {
+        $set: {
+          role: "admin",
+        },
+      };
+      const result = await usersCollection.updateOne(filter, updateDoc);
+      res.send(result);
+    });
+
+
+     // delete users
+     app.delete('/users/:id', async(req,res)=>{
+          const id= req.params.id;
+          const query= {_id: new ObjectId(id)}
+          const result= await usersCollection.deleteOne(query)
+          res.send(result);
+     } )
+
+
 
     app.get("/menu", async (req, res) => {
         const result = await menuCollection.find().toArray();
