@@ -36,7 +36,15 @@ async function run() {
      const cartsCollection = database.collection("carts");
     const usersCollection = database.collection("users");
 
-    
+   // users api create 
+   app.post('/users', async(req,res)=>{
+        const user= req.body;
+        const result= await usersCollection.insertOne(user);
+        res.send(result)
+   }  )
+
+
+
     app.get("/menu", async (req, res) => {
         const result = await menuCollection.find().toArray();
         res.send(result);
